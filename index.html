@@ -423,6 +423,7 @@
   const audio = document.querySelector('audio');
   document.getElementById('playBtn').addEventListener('click', () => {
     audio.muted = !audio.muted;
+    audio.loop = false; // stop looping
     audio.volume = 0;
     audio.play().then(() => {
       let vol = 0;
