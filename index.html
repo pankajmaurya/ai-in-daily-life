@@ -414,16 +414,33 @@
             </div>
         </div>
     </div>
-</body>
-<audio autoplay loop muted>
+<audio id="bgAudio" autoplay loop muted>
   <source src="rabindranath.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+</body>
 <script>
-  const audio = document.querySelector('audio');
+  const audio = document.getElementById('bgAudio');
   document.getElementById('playBtn').addEventListener('click', () => {
-    audio.muted = !audio.muted;
-    audio.play();
+    audio.muted = false;
+    audio.volume = 0;
+    audio.play().then(() => {
+      let vol = 0;
+      const fade = setInterval(() => {
+        vol += 0.05;
+        if (vol >= 1) clearInterval(fade);
+        audio.volume = vol;
+      }, 100);
+    }).catch(err => console.log("Playback error:", err));
   });
 </script>
+<!--
+<script>
+  const audio = document.getElementById('bgAudio');
+  document.getElementById('playBtn').addEventListener('click', () => {
+    audio.muted = false; // fully unmute
+    audio.play().catch(err => console.log("Playback error:", err));
+  });
+</script>
+-->
 </html>
