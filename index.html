@@ -423,7 +423,15 @@
   const audio = document.querySelector('audio');
   document.getElementById('playBtn').addEventListener('click', () => {
     audio.muted = !audio.muted;
-    audio.play();
+    audio.volume = 0;
+    audio.play().then(() => {
+      let vol = 0;
+      const fade = setInterval(() => {
+        vol += 0.05;
+        if (vol >= 1) clearInterval(fade);
+        audio.volume = vol;
+      }, 100);
+    }).catch(err => console.log("Playback error:", err));
   });
 </script>
 </html>
