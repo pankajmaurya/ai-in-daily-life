@@ -456,16 +456,22 @@
 
   let currentIndex = 0;
   const audio = document.querySelector('audio');
+  const playBtn = document.getElementById('playBtn');
 
-  document.getElementById('playBtn').addEventListener('click', () => {
+  playBtn.addEventListener('click', () => {
+    audio.muted = false;  // ensure unmuted
+
+    // If already playing, skip to next track
+    if (!audio.paused) {
+      currentIndex = (currentIndex + 1) % audioFiles.length;
+    }
+
     audio.src = audioFiles[currentIndex];
-    audio.muted = false;       // always unmute
-    audio.loop = false;        // no repeat of same track
-    audio.currentTime = 0;     // start fresh
+    audio.currentTime = 0;
     audio.play().catch(err => console.log("Playback error:", err));
   });
 
-  // Move to next file when current one ends
+  // Auto-skip when track ends
   audio.addEventListener('ended', () => {
     currentIndex = (currentIndex + 1) % audioFiles.length;
     audio.src = audioFiles[currentIndex];
