@@ -422,17 +422,25 @@
 <script>
   const audio = document.querySelector('audio');
   document.getElementById('playBtn').addEventListener('click', () => {
-    audio.muted = !audio.muted;
-    audio.loop = false; // stop looping
-    audio.volume = 0;
+    audio.muted = false;       // always unmute
+    audio.loop = false;        // stop looping after current play
+    audio.currentTime = 0;     // restart from beginning
+    audio.volume = 0;          // start silent for fade-in
+
     audio.play().then(() => {
       let vol = 0;
       const fade = setInterval(() => {
         vol += 0.05;
-        if (vol >= 1) clearInterval(fade);
+        if (vol >= 1) {
+          vol = 1;             // cap volume
+          clearInterval(fade);
+        }
         audio.volume = vol;
       }, 100);
-    }).catch(err => console.log("Playback error:", err));
+    }).catch(err => {
+      console.log("Playback error:", err);
+    });
   });
 </script>
+
 </html>
