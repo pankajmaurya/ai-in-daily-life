@@ -363,7 +363,8 @@
             <div class="episode-info">Exploring how artificial intelligence<br>shapes our everyday experiences</div>
         </div>
         
-        <button class="play-button">▶ Listen Now</button>
+<button id='playBtn' class="play-button">▶ Listen Now</button>
+
         
         <div class="right-section">
             <div class="person-container">
@@ -418,4 +419,11 @@
   <source src="rabindranath.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+<script>
+  const audio = document.querySelector('audio');
+  document.getElementById('playBtn').addEventListener('click', () => {
+    audio.muted = !audio.muted;
+    audio.play();
+  });
+</script>
 </html>
